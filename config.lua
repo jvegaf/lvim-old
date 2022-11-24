@@ -36,16 +36,16 @@ lvim.colorscheme = "gruvbox"
 lvim.leader = "space"
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
-lvim.keys.normal_mode["<Tab>"] = ":BufferLineCycleNext<CR>"
-lvim.keys.normal_mode["<S-Tab>"] = ":BufferLineCyclePrev<CR>"
-lvim.keys.normal_mode["<M-1>"] = ":NvimTreeToggle<CR>"
+lvim.keys.normal_mode["<Tab>"] = "<CMP>BufferLineCycleNext<CR>"
+lvim.keys.normal_mode["<S-Tab>"] = "<CMP>BufferLineCyclePrev<CR>"
+lvim.keys.normal_mode["<A-1>"] = "<CMP>NvimTreeToggle<CR>"
 lvim.keys.visual_mode["s"] = ":'<,'>BrowserSearch<CR>"
 
-lvim.keys.normal_mode["<Leader>s"] = "<Plug>SearchNormal"
-lvim.keys.visual_mode["<Leader>s"] = "<Plug>SearchVisual"
+lvim.keys.normal_mode["<Leader>S"] = "<Plug>SearchNormal"
+lvim.keys.visual_mode["<Leader>S"] = "<Plug>SearchVisual"
 
 -- unmap a default keymapping
-vim.keymap.del("n", "J")
+vim.keymap.del("n", "<S-j>")
 -- override a default keymapping
 -- lvim.keys.normal_mode["<C-q>"] = ":q<cr>" -- or vim.keymap.set("n", "<C-q>", ":q<cr>" )
 -- Change Telescope navigation to use j and k for navigation and n and p for history in both input and normal mode.
@@ -66,6 +66,8 @@ lvim.builtin.telescope.defaults.mappings = {
   },
 }
 
+lvim.builtin.terminal.open_mapping = [[<c-/>]]
+
 -- Change theme settings
 -- lvim.builtin.theme.options.dim_inactive = truenormal_mode
 -- lvim.builtin.theme.options.style = "storm"
@@ -82,6 +84,7 @@ lvim.builtin.which_key.mappings["t"] = {
   l = { "<cmd>Trouble loclist<cr>", "LocationList" },
   w = { "<cmd>Trouble workspace_diagnostics<cr>", "Workspace Diagnostics" },
 }
+
 
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.alpha.active = true
