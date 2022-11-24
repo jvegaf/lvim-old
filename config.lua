@@ -207,6 +207,7 @@ lvim.plugins = {
     cmd = "TroubleToggle",
   },
   "morhetz/gruvbox",
+  { "mg979/vim-visual-multi", config = function() vim.g.VM_leader = ";" end },
 }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
