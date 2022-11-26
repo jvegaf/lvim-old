@@ -1,16 +1,33 @@
 --[[
-lvim is the global options object
-
-Linters should be
-filled in as strings with either
-a global executable or a path to
-an executable
+ THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
+ `lvim` is the global options object
 ]]
--- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
+
+-- Enable powershell as your default shell
+vim.opt.shell = "pwsh.exe -NoLogo"
+vim.opt.shellcmdflag =
+"-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;"
+vim.cmd [[
+		let &shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+		let &shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+		set shellquote= shellxquote=
+  ]]
+
+-- Set a compatible clipboard manager
+vim.g.clipboard = {
+  copy = {
+    ["+"] = "win32yank.exe -i --crlf",
+    ["*"] = "win32yank.exe -i --crlf",
+  },
+  paste = {
+    ["+"] = "win32yank.exe -o --lf",
+    ["*"] = "win32yank.exe -o --lf",
+  },
+}
 
 -- general
 lvim.log.level = "warn"
-lvim.format_on_save.enabled = false
+lvim.format_on_save.enabled = true
 lvim.colorscheme = "gruvbox"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
@@ -19,18 +36,16 @@ lvim.colorscheme = "gruvbox"
 lvim.leader = "space"
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
-lvim.keys.normal_mode["<Tab>"] = ":BufferLineCycleNext<CR>"
-lvim.keys.normal_mode["<S-Tab>"] = ":BufferLineCyclePrev<CR>"
-lvim.keys.normal_mode["<A-e>"] = ":NvimTreeToggle<CR>"
-lvim.keys.normal_mode["<Leader>e"] = ":NvimTreeFocus<CR>"
+lvim.keys.normal_mode["<Tab>"] = "<CMP>BufferLineCycleNext<CR>"
+lvim.keys.normal_mode["<S-Tab>"] = "<CMP>BufferLineCyclePrev<CR>"
+lvim.keys.normal_mode["<A-1>"] = "<CMP>NvimTreeToggle<CR>"
 lvim.keys.visual_mode["s"] = ":'<,'>BrowserSearch<CR>"
-lvim.keys.normal_mode["<A-t>"] = ":ToggleTerm orientation=float<CR>"
-lvim.keys.normal_mode["<A-t>"] = "<Esc>:ToggleTermToggleAll<CR>"
+
 lvim.keys.normal_mode["<Leader>S"] = "<Plug>SearchNormal"
 lvim.keys.visual_mode["<Leader>S"] = "<Plug>SearchVisual"
 
 -- unmap a default keymapping
--- vim.keymap.del("n", "<S-j>")
+vim.keymap.del("n", "<S-j>")
 -- override a default keymapping
 -- lvim.keys.normal_mode["<C-q>"] = ":q<cr>" -- or vim.keymap.set("n", "<C-q>", ":q<cr>" )
 -- Change Telescope navigation to use j and k for navigation and n and p for history in both input and normal mode.
@@ -51,7 +66,7 @@ lvim.builtin.telescope.defaults.mappings = {
   },
 }
 
--- lvim.builtin.terminal.open_mapping = [[<c-/>]]
+lvim.builtin.terminal.open_mapping = [[<c-/>]]
 
 -- Change theme settings
 -- lvim.builtin.theme.options.dim_inactive = truenormal_mode
@@ -60,8 +75,7 @@ lvim.builtin.telescope.defaults.mappings = {
 -- Use which-key to add extra bindings with the leader-key prefix
 lvim.builtin.which_key.mappings["e"] = { "<cmd>NvimTreeFocus<CR>", "File Explorer Focus" }
 lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
--- lvim.builtin.which_key.mappings["t"] = { "<cmd>ToggleTerm orientation=float<CR>", "Terminal" }
-lvim.builtin.which_key.mappings["T"] = {
+lvim.builtin.which_key.mappings["t"] = {
   name = "+Trouble",
   r = { "<cmd>Trouble lsp_references<cr>", "References" },
   f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
@@ -75,7 +89,7 @@ lvim.builtin.which_key.mappings["T"] = {
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
--- lvim.builtin.terminal.active = false
+lvim.builtin.terminal.active = false
 -- lvim.builtin.terminal.shell = "pwsh.exe -NoLogo"
 
 -- nvim-tree has some performance issues on windows, see kyazdani42/nvim-tree.lua#549
@@ -189,20 +203,13 @@ formatters.setup {
 
 -- Additional Plugins
 lvim.plugins = {
-  { "normen/vim-pio" },
-  { "voldikss/vim-browser-search" },
+  "normen/vim-pio",
+  "voldikss/vim-browser-search",
   {
     "folke/trouble.nvim",
     cmd = "TroubleToggle",
   },
-  {
-    "akinsho/toggleterm.nvim",
-    tag = '*',
-    config = function()
-      require("toggleterm").setup()
-    end
-  },
-  { "morhetz/gruvbox" },
+  "morhetz/gruvbox",
   { "mg979/vim-visual-multi", config = function() vim.g.VM_leader = ";" end },
 }
 
