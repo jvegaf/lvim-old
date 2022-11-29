@@ -11,24 +11,19 @@ an executable
 require("settings")
 -- general
 lvim.log.level = "warn"
-lvim.format_on_save.enabled = false
+lvim.format_on_save.enabled = true
 lvim.colorscheme = "gruvbox"
+lvim.builtin.background = "light"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
 -- add your own keymapping
-lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 lvim.keys.normal_mode["<Tab>"] = ":BufferLineCycleNext<CR>"
 lvim.keys.normal_mode["<S-Tab>"] = ":BufferLineCyclePrev<CR>"
 lvim.keys.normal_mode["<A-e>"] = ":NvimTreeToggle<CR>"
-lvim.keys.normal_mode["<Leader>e"] = ":NvimTreeFocus<CR>"
 lvim.keys.visual_mode["s"] = ":'<,'>BrowserSearch<CR>"
-lvim.keys.normal_mode["<A-t>"] = ":ToggleTerm orientation=float<CR>"
-lvim.keys.normal_mode["<A-t>"] = "<Esc>:ToggleTermToggleAll<CR>"
-lvim.keys.normal_mode["<Leader>S"] = "<Plug>SearchNormal"
-lvim.keys.visual_mode["<Leader>S"] = "<Plug>SearchVisual"
 
 -- unmap a default keymapping
 -- vim.keymap.del("n", "<S-j>")
@@ -61,7 +56,6 @@ lvim.builtin.telescope.defaults.mappings = {
 -- Use which-key to add extra bindings with the leader-key prefix
 lvim.builtin.which_key.mappings["e"] = { "<cmd>NvimTreeFocus<CR>", "File Explorer Focus" }
 lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
--- lvim.builtin.which_key.mappings["t"] = { "<cmd>ToggleTerm orientation=float<CR>", "Terminal" }
 lvim.builtin.which_key.mappings["T"] = {
   name = "+Trouble",
   r = { "<cmd>Trouble lsp_references<cr>", "References" },
@@ -76,8 +70,6 @@ lvim.builtin.which_key.mappings["T"] = {
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
--- lvim.builtin.terminal.active = false
--- lvim.builtin.terminal.shell = "pwsh.exe -NoLogo"
 
 -- nvim-tree has some performance issues on windows, see kyazdani42/nvim-tree.lua#549
 lvim.builtin.nvimtree.setup.diagnostics.enable = nil
@@ -101,6 +93,7 @@ lvim.builtin.treesitter.ensure_installed = {
   "tsx",
   "yaml",
   "json",
+  "vim",
 }
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
@@ -157,8 +150,6 @@ require("lvim.lsp.manager").setup("angularls")
 -- -- set a formatter, this will override the language server formatting capabilities (if it exists)
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
-  { command = "black", filetypes = { "python" } },
-  { command = "isort", filetypes = { "python" } },
   {
     -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
     command = "prettier",
@@ -195,13 +186,6 @@ lvim.plugins = {
   {
     "folke/trouble.nvim",
     cmd = "TroubleToggle",
-  },
-  {
-    "akinsho/toggleterm.nvim",
-    tag = '*',
-    config = function()
-      require("toggleterm").setup()
-    end
   },
   { "morhetz/gruvbox" },
   { "mg979/vim-visual-multi", config = function() vim.g.VM_leader = ";" end },
